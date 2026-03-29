@@ -1,0 +1,271 @@
+/* ========================================
+   KEEB — Design System & Global Styles
+   ======================================== */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap');
+
+/* --- Custom Properties --- */
+:root {
+  --purple-deep: #4B006E;
+  --purple-royal: #7851A9;
+  --purple-light: #9B72CF;
+  --bg-dark: #0a0a0a;
+  --bg-card: #141414;
+  --text-primary: #f0e6d3;
+  --text-muted: #a89b8c;
+  --white: #ffffff;
+  --border-color: #2a2a2a;
+
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  --shadow-hard: 4px 4px 0 var(--purple-deep);
+  --shadow-hard-sm: 2px 2px 0 var(--purple-deep);
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* --- Noise Texture Overlay --- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.07;
+  background-image: url('/textures/noise.svg');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* --- Scanline Texture --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(75, 0, 110, 0.025) 3px,
+    rgba(75, 0, 110, 0.025) 4px
+  );
+}
+
+/* --- Grid Pattern Background Utility --- */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(75, 0, 110, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(75, 0, 110, 0.15) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-grid-dense {
+  background-image:
+    linear-gradient(rgba(120, 81, 169, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 81, 169, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+a {
+  color: var(--purple-royal);
+  text-decoration: none;
+  transition: color 0.1s;
+}
+
+a:hover {
+  color: var(--purple-light);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--purple-deep);
+}
+
+/* --- Selection --- */
+::selection {
+  background: var(--purple-royal);
+  color: var(--white);
+}
+
+/* --- Prose (Markdown Content) --- */
+.prose {
+  max-width: 72ch;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.prose h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 3px solid var(--purple-deep);
+  padding-bottom: 0.5rem;
+}
+
+.prose h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--purple-light);
+}
+
+.prose h3 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-bottom: 1rem;
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.25rem;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  color: var(--purple-light);
+}
+
+.prose pre {
+  background: #111 !important;
+  border: 2px solid var(--border-color);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--purple-royal);
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.prose th {
+  background: var(--bg-card);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.prose tr:nth-child(even) {
+  background: rgba(75, 0, 110, 0.05);
+}
+
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose img {
+  border: 2px solid var(--border-color);
+  margin: 1.5rem 0;
+}
+
+.prose hr {
+  border: none;
+  border-top: 2px solid var(--border-color);
+  margin: 2rem 0;
+}
+
+/* --- Utility --- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

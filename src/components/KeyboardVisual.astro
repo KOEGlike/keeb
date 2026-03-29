@@ -1,0 +1,272 @@
+---
+// Pure CSS mechanical keyboard — 60% layout
+// Each key is a sharp-edged div with hard inset shadow for depth
+
+const rows = [
+  // Row 1: Number row
+  [
+    { label: 'ESC', w: 1 },
+    { label: '1', w: 1 }, { label: '2', w: 1 }, { label: '3', w: 1 },
+    { label: '4', w: 1 }, { label: '5', w: 1 }, { label: '6', w: 1 },
+    { label: '7', w: 1 }, { label: '8', w: 1 }, { label: '9', w: 1 },
+    { label: '0', w: 1 }, { label: '-', w: 1 }, { label: '=', w: 1 },
+    { label: 'BKSP', w: 2 },
+  ],
+  // Row 2: QWERTY
+  [
+    { label: 'TAB', w: 1.5 },
+    { label: 'Q', w: 1 }, { label: 'W', w: 1 }, { label: 'E', w: 1 },
+    { label: 'R', w: 1 }, { label: 'T', w: 1 }, { label: 'Y', w: 1 },
+    { label: 'U', w: 1 }, { label: 'I', w: 1 }, { label: 'O', w: 1 },
+    { label: 'P', w: 1 }, { label: '[', w: 1 }, { label: ']', w: 1 },
+    { label: '\\', w: 1.5 },
+  ],
+  // Row 3: Home row
+  [
+    { label: 'CAPS', w: 1.75 },
+    { label: 'A', w: 1 }, { label: 'S', w: 1 }, { label: 'D', w: 1 },
+    { label: 'F', w: 1 }, { label: 'G', w: 1 }, { label: 'H', w: 1 },
+    { label: 'J', w: 1 }, { label: 'K', w: 1 }, { label: 'L', w: 1 },
+    { label: ';', w: 1 }, { label: "'", w: 1 },
+    { label: 'ENTER', w: 2.25 },
+  ],
+  // Row 4: Shift row
+  [
+    { label: 'SHIFT', w: 2.25 },
+    { label: 'Z', w: 1 }, { label: 'X', w: 1 }, { label: 'C', w: 1 },
+    { label: 'V', w: 1 }, { label: 'B', w: 1 }, { label: 'N', w: 1 },
+    { label: 'M', w: 1 }, { label: ',', w: 1 }, { label: '.', w: 1 },
+    { label: '/', w: 1 },
+    { label: 'SHIFT', w: 2.75 },
+  ],
+  // Row 5: Bottom row
+  [
+    { label: 'CTRL', w: 1.25 },
+    { label: 'WIN', w: 1.25 },
+    { label: 'ALT', w: 1.25 },
+    { label: '', w: 6.25 },
+    { label: 'ALT', w: 1.25 },
+    { label: 'FN', w: 1.25 },
+    { label: 'CTRL', w: 1.25 },
+  ],
+];
+
+// Keys that get the highlight animation
+const highlightKeys = ['K', 'E', 'B'];
+---
+
+<div class="keyboard-wrapper">
+  <div class="keyboard-case">
+    <div class="keyboard">
+      {rows.map((row, rowIndex) => (
+        <div class="keyboard__row">
+          {row.map((key) => (
+            <div
+              class:list={[
+                'key',
+                highlightKeys.includes(key.label) && 'key--highlight',
+                key.label === '' && 'key--space',
+              ]}
+              style={`--key-width: ${key.w}`}
+              data-key={key.label}
+            >
+              <span class="key__label">{key.label}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .keyboard-wrapper {
+    perspective: 900px;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .keyboard-case {
+    background: #1a1a1a;
+    border: 3px solid #2a2a2a;
+    padding: 12px;
+    transform: rotateX(12deg);
+    box-shadow: 0 20px 0 -4px #111, 0 24px 0 -2px #2a2a2a;
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  /* Subtle texture on the case */
+  .keyboard-case::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(120, 81, 169, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 81, 169, 0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+
+  .keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .keyboard__row {
+    display: flex;
+    gap: 3px;
+  }
+
+  .key {
+    --unit: calc((700px - 14 * 3px) / 15);
+    width: calc(var(--key-width) * var(--unit) + (var(--key-width) - 1) * 3px);
+    height: 38px;
+    background: #252525;
+    border: 1px solid #333;
+    border-bottom: 3px solid #1a1a1a;
+    border-right: 2px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .key::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: none;
+    border-right: none;
+    pointer-events: none;
+  }
+
+  .key:hover {
+    background: #2e2e2e;
+    border-color: var(--purple-deep);
+  }
+
+  .key--highlight {
+    animation: key-pulse 3s ease-in-out infinite;
+    background: var(--purple-deep);
+    border-color: var(--purple-royal);
+  }
+
+  .key--highlight .key__label {
+    color: var(--white);
+  }
+
+  .key--highlight:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  .key--highlight:nth-child(3) {
+    animation-delay: 0.8s;
+  }
+
+  @keyframes key-pulse {
+    0%, 100% { background: var(--purple-deep); }
+    50% { background: var(--purple-royal); }
+  }
+
+  .key--space {
+    background: #222;
+  }
+
+  .key__label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Responsive scaling */
+  @media (max-width: 768px) {
+    .key {
+      --unit: calc((100vw - 4rem - 14 * 2px) / 15);
+      height: 30px;
+    }
+
+    .keyboard-case {
+      padding: 8px;
+      transform: rotateX(8deg);
+    }
+
+    .keyboard__row {
+      gap: 2px;
+    }
+
+    .keyboard {
+      gap: 2px;
+    }
+
+    .key {
+      width: calc(var(--key-width) * var(--unit) + (var(--key-width) - 1) * 2px);
+    }
+
+    .key__label {
+      font-size: 0.4rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .key {
+      height: 24px;
+    }
+
+    .key__label {
+      font-size: 0.35rem;
+    }
+
+    .keyboard-case {
+      padding: 5px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Easter egg: wave activation (must be global — classes added by JS) */
+  .key.key--wave {
+    animation: key-wave-pop 0.4s ease-out forwards !important;
+  }
+
+  @keyframes key-wave-pop {
+    0% { background: #252525; border-color: #333; transform: scale(1); }
+    40% { background: var(--purple-royal); border-color: #b388e0; transform: scale(1.08); }
+    100% { background: var(--purple-deep); border-color: var(--purple-royal); transform: scale(1); }
+  }
+
+  .key.key--wave .key__label {
+    color: var(--white) !important;
+  }
+
+  .key.key--lit {
+    background: var(--purple-deep) !important;
+    border-color: var(--purple-royal) !important;
+  }
+
+  .key.key--lit .key__label {
+    color: var(--white) !important;
+  }
+
+  /* Click press feedback */
+  .key.key--pressed {
+    background: var(--purple-royal) !important;
+    border-color: #b388e0 !important;
+    transform: scale(0.93);
+    transition: transform 0.05s, background 0.05s;
+  }
+
+  .key.key--pressed .key__label {
+    color: var(--white) !important;
+  }
+</style>

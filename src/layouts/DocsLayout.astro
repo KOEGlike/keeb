@@ -1,0 +1,150 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import DocsSidebar from '../components/DocsSidebar.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Get docs for mobile nav
+const docs = await getCollection('docs');
+const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+const currentPath = Astro.url.pathname;
+---
+
+<BaseLayout title={`${title} — KEEB Docs`} description={description}>
+  <DocsSidebar />
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav">
+    <div class="mobile-nav__header">
+      <a href="/" class="mobile-nav__logo">KEEB</a>
+      <span class="mobile-nav__label">DOCS</span>
+    </div>
+    <details class="mobile-nav__menu">
+      <summary class="mobile-nav__toggle">MENU</summary>
+      <nav class="mobile-nav__links">
+        {sorted.map((doc) => {
+          const href = `/docs/${doc.id}`;
+          const isActive = currentPath === href || currentPath === `${href}/`;
+          return (
+            <a
+              href={href}
+              class:list={['mobile-nav__link', isActive && 'mobile-nav__link--active']}
+            >
+              {doc.data.title}
+            </a>
+          );
+        })}
+      </nav>
+    </details>
+  </div>
+
+  <main class="docs-main">
+    <article class="prose">
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .docs-main {
+    margin-left: 260px;
+    padding: 3rem 2.5rem;
+    min-height: 100vh;
+  }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .docs-main {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+      padding-top: 4.5rem;
+    }
+
+    .mobile-nav {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: var(--bg-card);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .mobile-nav__header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .mobile-nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+    }
+
+    .mobile-nav__label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      border: 1px solid var(--border-color);
+      padding: 0.1rem 0.3rem;
+    }
+
+    .mobile-nav__menu {
+      border-top: 1px solid var(--border-color);
+    }
+
+    .mobile-nav__toggle {
+      display: block;
+      padding: 0.5rem 1rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--purple-royal);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .mobile-nav__toggle::-webkit-details-marker {
+      display: none;
+    }
+
+    .mobile-nav__links {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-dark);
+    }
+
+    .mobile-nav__link {
+      display: block;
+      padding: 0.6rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+    }
+
+    .mobile-nav__link--active {
+      color: var(--white);
+      border-left-color: var(--purple-royal);
+      background: rgba(120, 81, 169, 0.1);
+    }
+  }
+</style>
