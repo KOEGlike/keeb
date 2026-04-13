@@ -4,7 +4,8 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'A Hack Club you-ship-we-ship keyboard building program.' } = Astro.props;
+const { title, description = 'Build your own mechanical keyboard from scratch with KEEB — a Hack Club you-ship-we-ship project. Follow the guide, we ship the parts, you build it.' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://keeb.hackclub.com');
 ---
 
 <!doctype html>
@@ -13,11 +14,35 @@ const { title, description = 'A Hack Club you-ship-we-ship keyboard building pro
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="keywords" content="mechanical keyboard, DIY keyboard, custom keyboard kit, build your own keyboard, Hack Club, keyboard building guide, soldering, firmware, QMK, keycaps, switches" />
+    <meta name="theme-color" content="#4B006E" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:site_name" content="KEEB" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "KEEB",
+      "description": description,
+      "url": canonicalURL.origin
+    })} />
   </head>
   <body>
     <slot />
