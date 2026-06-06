@@ -1,7 +1,7 @@
 # KEEB
 
 ![](keeb/blender/keeb-main.png)
-![](keeb/blender/keeb-side.png)
+
 
 A Hack Club you-ship-we-ship project. Follow the guide, we ship the parts, you build a mechanical keyboard. With an example keyboard.
 
@@ -22,6 +22,7 @@ This project exists to help beginners make their first electronics project/keybo
 ![image](https://cdn.hackclub.com/019e9d9e-fdcb-7256-a849-76fde9fbc682/paste-1780760902337.png)
 ![image](https://cdn.hackclub.com/019e9d9f-0e61-7912-853a-3b56aa9736fe/paste-1780760907091.png)
 ![image](https://cdn.hackclub.com/019e9da3-e807-7753-bc74-3c669afc99b9/paste-1780761224506.png)
+![](keeb/blender/keeb-side.png)
 
 ## Example keyboard BOM
 
